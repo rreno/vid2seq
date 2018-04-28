@@ -22,7 +22,7 @@ class MainWindow(QMainWindow):
     def __init__(self, parent=None):
         super().__init__(parent)
 
-        self.ui = QFile(QFile.symLinkTarget('ui/mainwindow.ui'))
+        self.ui = QFile('ui/mainwindow.ui')
         self.ui.open(QFile.ReadOnly)
 
         self.loader = QUiLoader()
@@ -72,8 +72,8 @@ class MainWindow(QMainWindow):
         # video is a tuple of (filename, selectedFilter). We just need the first element
         self.inPath = QDir(video[0]).absolutePath()
         self.lblIn.setText(self.inPath)
-        # remove the path and the video container information so we can name our sequence files later.
-        self.videoName = self.inPath.split('/')[-1].split('.')[0]
+        # remove the path information so we can name our sequence files later.
+        self.vidName = self.inPath.split('/')[-1]
 
         if self.lblIn.text() != DEFAULT_IN_TEXT and self.lblOut.text() != DEFAULT_OUT_TEXT:
             self.btnGo.setEnabled(True)
@@ -86,7 +86,7 @@ class MainWindow(QMainWindow):
                                                caption='Output Directory',
                                                dir=self.outPath)
         self.outPath = QDir(out).absolutePath()
-        self.lblOut.setText("{}_XXX.png".format(self.videoName))
+        self.lblOut.setText("{}_XXX.png".format(self.vidName))
 
         if self.lblIn.text() != DEFAULT_IN_TEXT and self.lblOut.text() != DEFAULT_OUT_TEXT:
             self.btnGo.setEnabled(True)
